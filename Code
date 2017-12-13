@@ -1,0 +1,19 @@
+Address <-read.csv(file="FacilityAddresses.txt", header = TRUE, sep = '~')
+Address$Address1_Composite <- gsub("\n", "", Address$Address1_Composite)
+
+getGeoDetails <- function(Address$Address1_Composite){   
+  #use the gecode function to query google servers
+  geo_reply = geocode(Address$Address1_Composite, output='all', messaging=TRUE, override_limit=TRUE)
+  #now extract the bits that we need from the returned list
+  answer <- data.frame(lat=NA, long=NA, accuracy=NA, formatted_address=NA, address_type=NA, status=NA)
+  answer$status <- geo_reply$status
+  
+  geo_reply = geocode(Address$Address, output='latlona', messaging=TRUE, override_limit=TRUE)
+  
+  2201 South Sterling StreetMorganton, NC 28655
+  
+Address2 <- c( "211 Park StreetP.O. Box 2963Attleboro, MA 02703-0963", 
+"2001 Vail AvenueCharlotte, NC 28207", 
+"10628 Park RoadCharlotte, NC 28210", 
+"301 Yadkin StreetAlbemarle, NC 28002", 
+"2201 South Sterling StreetMorganton, NC 28655")
